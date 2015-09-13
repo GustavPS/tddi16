@@ -224,10 +224,8 @@ remove(const Comparable& x, Node_Pointer& t)
 
   if (x < t->element) 
     {
-      //cout << x << " <- x t->left-> " << t->left << endl;
       remove(x, t->left);
-      //cout << t->right << " <-t->right t->left-> " << t->left << endl;
-      /*// x < t->element
+
       if (node_height(t->right) - node_height(t->left) == 2) {
 	if (node_height(t->right->right) > node_height(t->right->left))
 	  single_rotate_with_right_child(t);
@@ -236,15 +234,13 @@ remove(const Comparable& x, Node_Pointer& t)
       }
       else
 	calculate_height(t);
-      */
+      
     } 
   else if (t->element < x) 
     {
-      //cout << x << " <- x t->right-> " << t->right << endl;
       remove(x, t->right);
-      //cout << t->left << " <-t-left t->right-> " << t->right << endl;
-      // t->element < x
-      /*if (node_height(t->left) - node_height(t->right) == 2) {
+
+      if (node_height(t->left) - node_height(t->right) == 2) {
 	if (node_height(t->left->left) > node_height(t->left->right))
 	  single_rotate_with_left_child(t);
 	else
@@ -252,7 +248,7 @@ remove(const Comparable& x, Node_Pointer& t)
       }
       else
 	calculate_height(t);
-      */
+      
     } 
   else 
     {
@@ -265,6 +261,17 @@ remove(const Comparable& x, Node_Pointer& t)
 	tmp = find_min(t->right);
 	t->element = tmp->element;
 	remove(t->element, t->right);
+
+	if (node_height(t->left) - node_height(t->right) == 2) {
+	  if (node_height(t->left->left) > node_height(t->left->right))
+	    single_rotate_with_left_child(t);
+	  else
+	    double_rotate_with_left_child(t);
+	}
+	else
+	  calculate_height(t);
+	
+
       }
       else {
 	// Noden har inget eller ett barn
@@ -274,80 +281,11 @@ remove(const Comparable& x, Node_Pointer& t)
 	  t = t->right;
 	else
 	  t = t->left;
-	    
+	
 	delete tmp;
       }
     }
-  //calculate_height(t);
-      /*if (t->left != nullptr && t->right != nullptr) {
-	if (node_height(t->right) - node_height(t->left) == 2) 
-	  {
-	  if (node_height(t->right->right) > node_height(t->right->left))
-	    single_rotate_with_right_child(t);
-	  else
-	    double_rotate_with_right_child(t);
-	}
-	else if (node_height(t->left) - node_height(t->right) == 2) 
-	  {
-	  if (node_height(t->left->left) > node_height(t->left->right))
-	    single_rotate_with_left_child(t);
-	  else
-	    double_rotate_with_left_child(t);
-	} 
-      } else 
-	{
-	  if (t->left == nullptr)
-	    {
-	      if (node_height(t->right) > 1)
-		{
-		  if (t->right != nullptr && node_height(t->right->right) > node_height(t->right->left))
-		    single_rotate_with_right_child(t);
-		  else
-		    double_rotate_with_right_child(t);
-		}
-	    } else 
-	    {
-	      if (node_height(t->left) > 1)
-		{
-		  if (t->left != nullptr && node_height(t->left->left) > node_height(t->left->right))
-		    single_rotate_with_left_child(t);
-		  else
-		    double_rotate_with_left_child(t);
-		}
-	    }
-	}
-      calculate_height(t);
-      }*/
-  
-  // Balance tree if nesaccary
-  // x < t->element
-  cout << "Here 0" << endl;
-  if (t-right != nullptr && t->left != nullptr)
-    {
-      cout << t->right << " and " << t->left << endl;
-    
-      if (node_height(t->right) - node_height(t->left) == 2) 
-	{
-	  cout << "Here 1" << endl;
-	  if (node_height(t->right->right) > node_height(t->right->left))
-	    single_rotate_with_right_child(t);
-	  else
-	    double_rotate_with_right_child(t);
-	  cout << "Here 2" << endl;
-	}
-      else if (node_height(t->left) - node_height(t->right) == 2) 
-	{
-	  cout << "Here 3" << endl;
-	  if (node_height(t->left->left) > node_height(t->left->right))
-	    single_rotate_with_left_child(t);
-	  else
-	    double_rotate_with_left_child(t);
-	}
-      else
-	{
-	  calculate_height(t);
-	}
-    }
+ 
 }
 
 /**
