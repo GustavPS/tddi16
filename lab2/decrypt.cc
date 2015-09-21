@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <functional>
+#include <math.h>
 
 #include "Key.h"
 
@@ -14,8 +15,16 @@ class key_hash
   public:
     long operator()(const Key& x) const
     {
-        hash<string> z;
-        return 300;
+      //hash<string> z;
+      //string toConvert;
+      long hash = 0;
+      //for (int i{0}; i < N; i++)
+      //	hash += i * KEYbit(x, i);
+      for (int i{N - 1}; i >= 0; i--)
+	{
+	  hash +=  KEYbit(x, i) * pow(2.0, i);
+	}
+      return hash;
     }
 };
 
@@ -24,7 +33,7 @@ class key_equal_to
   public:
      bool operator()(const Key& a, const Key& b) const
      {
-       for( int i = 0; i < C; ++i)
+       for( int i{0}; i < C; ++i)
 	 {
 	   if( a.digit[i] != b.digit[i] )
 	     return false;
@@ -78,6 +87,26 @@ main(int argc, char* argv[])
 
   candenc = KEYsubsetsum(candidate, T);
   cout << "A Key?? " << candenc << endl;
+
+  /*
+  // temp code
+  long hash = 0;
+  for (int i{N - 1}; i >= 0; i--)
+    hash += KEYbit(candidate, i) * pow(2.0, i);
+  cout << "Hash value for " << candidate << ":   " << hash << endl;
+  hash = 0;
+  ++candidate;
+  for (int i{N - 1}; i >= 0; i--)
+    hash +=  KEYbit(candidate, i) * pow(2.0, i);
+  cout << "Hash value for " << candidate << ":   " << hash << endl;
+  hash = 0;
+  ++candidate;
+  for (int i{N - 1}; i >= 0; i--)
+    {
+      hash +=  KEYbit(candidate, i) * pow(2.0, i);
+    }
+  cout << "Hash value for " << candidate << ":   " << hash << endl;
+  */
 
   auto end = chrono::high_resolution_clock::now();
   cout << "Decryption took "
