@@ -2,17 +2,21 @@
  *  Knäcka lösenord readme.txt
  **********************************************************************/
 
- Ungefärligt antal timmar spenderade på labben (valfritt):
+ Ungefärligt antal timmar spenderade på labben (valfritt): 13 timmar
 
 /**********************************************************************
  *  Ge en högnivåbeskrivning av ditt program decrypt.c.
  **********************************************************************/
+
+Programmet gör saker..
 
 
 /**********************************************************************
  *  Beskriv symboltabellen du använt för decrypt.c.
  **********************************************************************/
 
+Som nyckel använder vi klassen Key där värdet är en lista av listor med heltal
+där heltalen representerar index i tabellen som ska summeras för att få Key.
 
 /**********************************************************************
  *  Ge de dekrypterade versionerna av alla lösenord med 8 och 10
@@ -22,9 +26,10 @@
 
 8 bokstäver         10 bokstäver
 -----------         ------------
-
-
-
+congrats		completely
+youfound		unbreakabl
+theright		cryptogram
+solution		ormaybenot
 
 /****************************************************************************
  *  Hur lång tid använder brute.c för att knäcka lösenord av en viss storlek?
@@ -35,10 +40,10 @@
 
 Char     Brute     
 --------------
- 4
- 5
- 6
- 8
+ 4	0 sekunder
+ 5	25 sekunder
+ 6	1091 sekunder
+ 8	*, 2017259 uppskattad tid, ökar med en faktor 43
 
 
 /******************************************************************************
