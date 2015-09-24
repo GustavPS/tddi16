@@ -23,4 +23,4 @@ clean:
 	@ \rm -rf *.o *.gch core
 
 zap: clean
-	@ \rm -f brute encrypt *~
+	@ \rm -f brute encrypt decrypt *~
