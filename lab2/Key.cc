@@ -17,8 +17,8 @@ Key KEYsubsetsum(const Key& k, const Key T[N])  {
   for (int i{0}; i < N; ++i)
     if (KEYbit(k, i)) {
       sum = sum + T[i];
-      cout << setw(2) << i << " "; // for debugging
-      cout << T[i] << endl;        // for debugging
+      //cout << setw(2) << i << " "; // for debugging
+      //cout << T[i] << endl;        // for debugging
     }
   return sum;
 }
