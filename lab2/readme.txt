@@ -8,7 +8,11 @@
  *  Ge en högnivåbeskrivning av ditt program decrypt.c.
  **********************************************************************/
 
-Programmet gör saker..
+Programmet delar den givna tabellen i två delar och beräknar sedan alla
+möjliga delsummor av dessa som sedan sparas i varsin unordered_map.
+En av hashtabellerna itereras där det kontrolleras om det krypterade
+lösenordet minus aktuell nyckel finns som nyckel i den andra hashtabellen.
+Skulle det vara så har vi en möjlig lösning.
 
 
 /**********************************************************************
@@ -55,13 +59,18 @@ Char     Brute
 
 Char    Tid (sekunder)    Minne (bytes)
 ----------------------------------------
-6
-8
-10
-12
+6	0		* 11000
+8	19		410000
+10	806		15840909 
+12	*, 39000	* 569G
+
+* uppskattad tid, ökar med en faktor 7
 
 /*************************************************************************
  * Hur många operationer använder brute.c för ett N-bitars lösenord?
  * Hur många operationer använder din decrypt.c för ett N-bitars lösenord?
  * Använd ordo-notation.
  *************************************************************************/
+
+brute.c		--> O(2^N)
+decrypt.c 	--> O(2^(N/2))
