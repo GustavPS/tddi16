@@ -47,31 +47,16 @@ void BitToString(bitset<N> b)
 {
   string BitString = b.to_string<char,string::traits_type,string::allocator_type>();
   BitString = string (BitString.rbegin(), BitString.rend());
-  //string BitString = b.to_string;
-  cout << BitString << " " << BitString.length() << endl;
   Key pass = {{0}};
   for ( int i = {0}; i < C; ++i)
     {
       string asdf = BitString.substr(i*5, 5);
       bitset<5> temp (asdf);
-      //cout << temp.to_ulong() << endl;
-      //cout << ALPHABET[temp.to_ulong()] << endl;
+
       pass.digit[ i ] = temp.to_ulong();
     }
   cout << pass << endl;
 }
-
-
-/*Applies the mask to a set like {1, 2, ..., n} and prints it */ 
-void printv(int mask[], int n) {
-    int i;
-    printf("{ ");
-    for (i = 0; i < n; ++i)
-        if (mask[i])
-	  printf("%d ", i + 1); //i+1 is part of the subset
-    printf("\\b }\\n");
-}
-
 
 /* Generates the next mask*/
 int next(int mask[], int n) {
@@ -123,7 +108,6 @@ unordered_map < Key, vector< vector< int > >, key_hash > getMap(Key T[], int ran
       if( it != temp.end())
 	{
 	  temp[subSet].push_back( permutations[i] );
-	  cout << "We here 2222" << endl;
 	}
       else {
 	vector < vector < int > > temp_vec = { permutations[i] };
@@ -166,7 +150,6 @@ main(int argc, char* argv[])
    unordered_map < Key, vector< vector< int > >, key_hash > first_half;
    unordered_map < Key, vector< vector< int > >, key_hash > second_half;
 
-   cout << "C: " << C << ", N: " << N << endl;
 
 
    int n = 0;
@@ -186,30 +169,6 @@ main(int argc, char* argv[])
   first_half = getMap(T, n, 0);
   second_half = getMap(T, m, m);
 
-  cout << first_half.size() << endl;
-  cout << second_half.size() << endl;
-
-  /*for ( auto ff = first_half.begin(); ff != first_half.end(); ++ff )
-    {
-      cout << ff->second.size() << " ";
-    }
-    cout << endl;*/
-  
-  /*for ( auto ff = first_half.begin(); ff != first_half.end(); ++ff )
-    {
-       if ( ff->first == encrypted )
-	    {
-	      
-	    }
-    }
-  for ( auto ff = second_half.begin(); ff != second_half.end(); ++ff )
-    {
-       if ( ff->first == encrypted )
-	    {
-	      
-	    }
-	    }*/
-
   
    for ( auto ff = first_half.begin(); ff != first_half.end(); ++ff )
     {
@@ -218,16 +177,13 @@ main(int argc, char* argv[])
       if ( second_half.count(temp) == 1 )
 	{
 	  bitset<N> b;
-	  //b.set(ff->first + (encrypted - ff->first));
 	  for(int fi = 0; fi < ff->second.size(); fi++)
 	    {
 	      bitset<N> b;
-	      cout << "Indexes for a possible password" << endl;
 	      
 	      for(int fj = 0; fj < ff->second[fi].size(); fj++)
 		{
 		  b.set(ff->second[fi][fj]);
-		  cout << ff->second[fi][fj] << " ";
 		}
 
 	      for( int si = {0}; si < second_half[temp].size(); ++si)
@@ -236,9 +192,7 @@ main(int argc, char* argv[])
 		  for(int sj = {0}; sj < second_half[temp][si].size(); ++sj)
 		    {
 		      first_part.set(second_half[ temp ][si][sj] );
-		      cout << second_half[ temp ][si][sj] << " ";
 		    }
-		  cout << "----------------------" << endl;
 		  BitToString(first_part);
 		}
 
