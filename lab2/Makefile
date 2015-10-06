@@ -2,7 +2,7 @@
 # Makefile för brute force-lösning
 #
 
-CCC	= g++ -std=c++11 
+CCC	= g++ -std=c++11 -Wall
 LFLAGS	= -L/sw/gcc-${GCC4_V}/lib -static-libstdc++
 
 all: encrypt brute decrypt
