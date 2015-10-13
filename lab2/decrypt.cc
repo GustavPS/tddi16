@@ -28,106 +28,14 @@ class key_hash
       return hash;
     }
 };
-/*
-class key_equal_to
-{
-  public:
-     bool operator()(const Key& a, const Key& b) const
-     {
-       for( int i{0}; i < C; ++i)
-	 {
-	   if( a.digit[i] != b.digit[i] )
-	     return false;
-	 }
-        return true;
-     }
-};*/
 
 
-void BitToString(bitset<N> b)
-{
-  string BitString = b.to_string<char,string::traits_type,string::allocator_type>();
-  BitString = string (BitString.rbegin(), BitString.rend());
-  Key pass = {{0}};
-  for ( int i = {0}; i < C; ++i)
-    {
-      string asdf = BitString.substr(i*5, 5);
-      bitset<5> temp (asdf);
-
-      pass.digit[ i ] = temp.to_ulong();
-    }
-  cout << pass << endl;
-}
-
-/* Generates the next mask*/
-int next(int mask[], int n) {
-    int i;
-    for (i = 0; (i < n) && mask[i]; ++i)
-        mask[i] = 0;
- 
-    if (i < n) {
-        mask[i] = 1;
-        return 1;
-    }
-    return 0;
-}
-
-
-
-unordered_map < Key, vector< vector< int > >, key_hash > getMap(Key T[], int range, int indexToAdd) {
-
-  int mask[range];
-  for (int i = 0; i < range; ++i)
-    mask[i] = 0;
-  
-  vector< vector <int> > permutations;
-
-  while (next(mask, range))
-  {
-    vector<int> v;
-    for (int i = 0; i < range; ++i)
-      if (mask[i])
-      {
-	v.push_back(i + indexToAdd);
-      }
-    permutations.push_back(v);
-  }
-
- 
-  unordered_map < Key, vector< vector< int > >, key_hash > temp;
-
-  //Populate one half of the hash table
-  for(unsigned int i = {0}; i < permutations.size(); ++i)
-    {
-      Key subSet{{0}};
-      for(unsigned int j = {0}; j < permutations[i].size(); ++j)
-	{
-	  subSet = subSet + T[ permutations[i][j] ];
-	 
-	}
-      unordered_map < Key, vector< vector< int > >, key_hash >::iterator it = temp.find(subSet);
-      if( it != temp.end())
-	{
-	  temp[subSet].push_back( permutations[i] );
-	}
-      else {
-	vector < vector < int > > temp_vec = { permutations[i] };
-	temp.insert(make_pair(subSet, temp_vec));
-      }     
-    }
-
-  return temp;
-
-}
  
 int
 main(int argc, char* argv[])
 {
   unsigned char buffer[C+1];     // temporary string buffer
-  //Key candidate = {{0}};         // a password candidate
   Key encrypted;                 // the encrypted password
-  //Key candenc;                   // the encrypted password candidate
-  //Key zero = {{0}};              // the all zero key
   Key T[N];                      // the table T
 
   if (argc != 2)
@@ -151,91 +59,61 @@ main(int argc, char* argv[])
 
    auto begin = chrono::high_resolution_clock::now();
 
-   unordered_map < Key, vector< vector< int > >, key_hash > first_half;
-   unordered_map < Key, vector< vector< int > >, key_hash > second_half;
+
+  // New code here **************************
+  // ****************************************
+  unordered_map < Key, vector< Key >, key_hash > first_h_keys;
+  vector< Key > temp_keys;
+  Key counter = {{0}};
+
+  // Fill the first half of the hash
+  while( counter.digit[C/2 - 1] == 0 ) {
+    //temp_keys.push_back(counter);
+    Key subset = KEYsubsetsum(counter, T);
+
+    //Check if that subset already exists in the hash
+    if (first_h_keys.count(subset) == 1) {
+      first_h_keys[subset].push_back( counter );
+    } else {
+      vector< Key > temp = { counter };
+      first_h_keys.insert( make_pair(subset, temp) );
+    }
+    counter++;
+  }
 
 
 
-   int n = 0;
-   int m = 0;
 
-   int toSubtract = 0;
+  Key max_first_half = counter;
 
-   if (N%2 != 0)
-     {
-       n = N/2;
-       m=N/2+1;
-       toSubtract = -1;
-     }
-   else
-     {
-       n=N/2;
-       m=N/2;
-     }
-
-  first_half = getMap(T, n, 0);
-  second_half = getMap(T, m, m + toSubtract);
 
   // Check cands in first_half
-  if( first_half.count(encrypted) == 1 )
-    {
-      //cout << "We have a cand in first_half" << endl;
-      for( unsigned int i = 0; i < first_half[encrypted].size(); ++i )
-	{
-	  bitset<N> b;
-	  for( unsigned int j = 0; j < first_half[encrypted][i].size(); ++j )
-	    {
-	      b.set( first_half[encrypted][i][j] );
-	    }
-	  BitToString(b);
-	}
+  if( first_h_keys.count(encrypted) == 1 ) {
+    //cout << "We have a cand in first_half" << endl;
+    for( unsigned int i = 0; i < first_h_keys[encrypted].size(); ++i )
+      {
+	cout << first_h_keys[encrypted][i] << endl;
+      }
+  }
+
+
+
+  Key zero = {{0}};
+  do {
+    Key temp = encrypted - KEYsubsetsum(counter, T);
+
+    if ( first_h_keys.count(temp) == 1) {
+
+      for ( unsigned int i = 0; i < first_h_keys[temp].size(); ++i ) {
+	cout << counter + first_h_keys[temp][i] << endl;
+      }
     }
+    counter = counter + max_first_half;
+  } while (counter != zero);
 
-  // Check cands in second_half
-  if( second_half.count(encrypted) == 1 )
-    {
-      for( unsigned int i = 0; i < second_half[encrypted].size(); ++i )
-	{
-	  bitset<N> b;
-	  for( unsigned int j = 0; j < second_half[encrypted][i].size(); ++j )
-	    {
-	      b.set( second_half[encrypted][i][j] );
-	    }
-	  BitToString(b);
-	}
-    }
 
-  // Check if we have any pwd candidates in first and second combined
-  for ( auto ff = first_half.begin(); ff != first_half.end(); ++ff )
-    {
 
-      Key temp = encrypted - ff->first;
-      if ( second_half.count(temp) == 1 )
-	{
-	  bitset<N> b;
-	  for(unsigned int fi = 0; fi < ff->second.size(); fi++)
-	    {
-	      bitset<N> b;
-	      
-	      for(unsigned int fj = 0; fj < ff->second[fi].size(); fj++)
-		{
-		  b.set(ff->second[fi][fj]);
-		}
 
-	      for(unsigned int si = {0}; si < second_half[temp].size(); ++si)
-		{
-		  bitset<N> first_part = b;
-		  for(unsigned int sj = {0}; sj < second_half[temp][si].size(); ++sj)
-		    {
-		      first_part.set(second_half[ temp ][si][sj] );
-		    }
-		  BitToString(first_part);
-		}
-
-	    }
-	}
-
-    }
 
   auto end = chrono::high_resolution_clock::now();
   cout << "Decryption took "
