@@ -109,11 +109,10 @@ main(int argc, char* argv[])
 
       // Iterate the sorted tempPoints and see if three in a row
       // has the same slope
-
       if (tempPoints.size() > 2)
 	{
 
-	  for (int j{0}; j < tempPoints.size()-2; ++j)
+	  for (unsigned int j{0}; j < tempPoints.size()-2; ++j)
 	    {
 	      
 	      
