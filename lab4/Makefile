@@ -1,8 +1,8 @@
 #
-# Makefile fÃ¶r bruteforcelÃ¶sning
+# Makefile för bruteforcelösning och fast
 #
 
-CCC	= g++ -std=c++11 
+CCC	= g++ -std=c++11 -Wall 
 LFLAGS	= -L/usr/lib/x86_64-linux-gnu -lSDL -lm
 
 all: brute fast
