@@ -1,5 +1,5 @@
 /*
- * brute < input.txt
+ * fast < input.txt
  *
  * Compute and plot all line segments involving 4 points in input.txt using SDL
  */
